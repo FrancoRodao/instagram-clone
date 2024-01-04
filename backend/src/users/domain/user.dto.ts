@@ -1,5 +1,10 @@
-import { Optional } from '../../types'
+import { OmitAndProhibit, Optional } from '../../types'
 import { IUserModel } from './user.model'
 
-type IUserWithOutRole = Omit<IUserModel, 'role'>
-export type IUserDTO = Optional<IUserWithOutRole, 'id'>
+type IUserCreate = OmitAndProhibit<IUserModel,
+    'role' | 'userFollowers' | 'userFollowed' | 'posts' |
+    'postsTaggedIn' | 'postsLiked' |
+    'postsCommented' | 'id'>
+
+export type IUserDto =
+  Optional<IUserCreate, 'biography' | 'profilePicture'>

@@ -15,8 +15,8 @@ export interface IUserModel{
     readonly role: IRoles
 
     readonly username: string
-    readonly biography: string
-    readonly profilePicture: string
+    readonly biography: string | null
+    readonly profilePicture: string | null
 
     // relationships
     readonly userFollowers: IUserModel[]

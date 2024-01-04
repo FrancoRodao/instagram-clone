@@ -1,5 +1,6 @@
 import { IPostCommentModel, IPostLikeModel, IPostModel } from '../../posts/domain'
 import { IRoles, IUserModel } from './user.model'
+import { IUserDto } from './user.dto'
 
 export class UserEntity implements IUserModel {
   public readonly id: string
@@ -10,8 +11,8 @@ export class UserEntity implements IUserModel {
   public readonly role: IRoles
 
   public readonly username: string
-  public readonly biography: string
-  public readonly profilePicture: string
+  public readonly biography: string | null
+  public readonly profilePicture: string | null
 
   public readonly userFollowers: IUserModel[]
   public readonly userFollowed: IUserModel[]
@@ -22,7 +23,7 @@ export class UserEntity implements IUserModel {
 
   constructor ({
     id, fullName, age, email, password, role,
-    username, biography, profilePicture,
+    username, biography = null, profilePicture = null,
     userFollowers = [], userFollowed = [],
     posts = [], postsLiked = [], postsTaggedIn = [], postsCommented = []
   }: IUserModel) {
@@ -44,5 +45,17 @@ export class UserEntity implements IUserModel {
     this.postsTaggedIn = postsTaggedIn
     this.postsLiked = postsLiked
     this.postsCommented = postsCommented
+  }
+
+  transformToUserDto (): IUserDto {
+    return {
+      fullName: this.fullName,
+      email: this.email,
+      age: this.age,
+      username: this.username,
+      password: this.password,
+      biography: this.biography,
+      profilePicture: this.profilePicture
+    }
   }
 }
