@@ -1,6 +1,6 @@
 import dotenv from 'dotenv'
 import path from 'path'
-import { isDebugENV, isDevelopmentENV, isProductionENV, isTestENV } from './environments.config'
+import { isDebugENV, isDevelopmentENV, isProductionENV, isTestENV } from '../../domain'
 // import { logger } from '../../utils/logger'
 
 function configEnv (envFileName: string) {
