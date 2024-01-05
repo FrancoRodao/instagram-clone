@@ -9,24 +9,28 @@ import { EncryptService } from './services/encryptServiceImpl'
 import { SignUpController } from './controllers/signup.controller'
 import { SignInController } from './controllers/signin.controller'
 import { authDiTypes } from './authDiTypes'
+import { ILogger, loggerDiTypes } from '../../logger/domain'
+import { LoggerModule } from '../../logger/infrastructure'
 
 const SignInUserProvider: Provider = {
   provide: SignInUser,
-  useFactory: (userRepository: IUserRepository, encryptService: IEncryptService) =>
-    new SignInUser(userRepository, encryptService),
+  useFactory: (userRepository: IUserRepository, encryptService: IEncryptService, loggerService: ILogger) =>
+    new SignInUser(userRepository, encryptService, loggerService),
   inject: [
     { token: usersDiTypes.UserRepository, optional: false },
-    { token: authDiTypes.EncryptService, optional: false }
+    { token: authDiTypes.EncryptService, optional: false },
+    { token: loggerDiTypes.logger, optional: false }
   ]
 }
 
 const SignUpUserProvider: Provider = {
   provide: SignUpUser,
-  useFactory: (userRepository: IUserRepository, encryptService: IEncryptService) =>
-    new SignUpUser(userRepository, encryptService),
+  useFactory: (userRepository: IUserRepository, encryptService: IEncryptService, loggerService: ILogger) =>
+    new SignUpUser(userRepository, encryptService, loggerService),
   inject: [
     { token: usersDiTypes.UserRepository, optional: false },
-    { token: authDiTypes.EncryptService, optional: false }
+    { token: authDiTypes.EncryptService, optional: false },
+    { token: loggerDiTypes.logger, optional: false }
   ]
 }
 
@@ -52,6 +56,6 @@ const AuthTokenServiceProvider: Provider = {
     AuthTokenServiceProvider
   ],
   controllers: [SignUpController, SignInController],
-  imports: [UsersModule]
+  imports: [UsersModule, LoggerModule]
 })
 export class AuthModule {}

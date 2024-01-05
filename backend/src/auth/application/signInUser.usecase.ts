@@ -1,3 +1,4 @@
+import { ILogger } from '../../logger/domain'
 import { Exception, Errors, IUseCase, statusCodeError } from '../../shared/domain'
 import { IUserDto, IUserRepository } from '../../users/domain'
 import { ISignInUserDto, IEncryptService } from '../domain'
@@ -5,7 +6,8 @@ import { ISignInUserDto, IEncryptService } from '../domain'
 export class SignInUser implements IUseCase<ISignInUserDto, IUserDto> {
   constructor (
         private userRepository: IUserRepository,
-        private encryptService: IEncryptService
+        private encryptService: IEncryptService,
+        private logger: ILogger
   ) { }
 
   async execute (userDto: ISignInUserDto): Promise<IUserDto> {
@@ -30,7 +32,7 @@ export class SignInUser implements IUseCase<ISignInUserDto, IUserDto> {
       )
     }
 
-    // TODO: LOGGER: USER LOGGED IN
+    this.logger.info(`SignInUser use case executed the user ${user.username} have been logged.`)
 
     return user.transformToUserDto()
   }

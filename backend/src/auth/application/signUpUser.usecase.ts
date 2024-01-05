@@ -1,11 +1,13 @@
 import { IEncryptService } from '../domain'
 import { Exception, Errors, IUseCase, statusCodeError } from '../../shared/domain'
 import { IUserDto, IUserRepository } from '../../users/domain'
+import { ILogger } from '../../logger/domain'
 
 export class SignUpUser implements IUseCase<IUserDto, IUserDto> {
   constructor (
     private userRepository: IUserRepository,
-    private encryptService: IEncryptService
+    private encryptService: IEncryptService,
+    private logger: ILogger
   ) {}
 
   async execute (userDto: IUserDto): Promise<IUserDto> {
@@ -37,7 +39,7 @@ export class SignUpUser implements IUseCase<IUserDto, IUserDto> {
       password: encryptedPassword
     })
 
-    // TODO: LOGGER: USER REGISTERED
+    this.logger.info(`SignUpUser use case executed the user ${newUser.username} have been registered.`)
 
     return newUser.transformToUserDto()
   }
