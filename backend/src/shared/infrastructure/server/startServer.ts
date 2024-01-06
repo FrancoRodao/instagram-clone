@@ -1,11 +1,12 @@
-import { NestFactory } from '@nestjs/core'
+import { HttpAdapterHost, NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
 import { environment } from '../config/environment.config'
 import { ValidationPipe } from '@nestjs/common'
-import { HttpExceptionFilter } from './http-exception.filter'
+import { AllExceptionFilter } from './all-exception.filter'
 import { ValidationExceptionWrapper } from './validationExceptionWrapper'
+import { loggerDiTypes } from '../../../logger/domain'
 
-export async function startServer () {
+export async function startAPIServer () {
   const app = await NestFactory.create(AppModule)
 
   app.useGlobalPipes(new ValidationPipe({
@@ -17,7 +18,8 @@ export async function startServer () {
     }
   }))
 
-  app.useGlobalFilters(new HttpExceptionFilter())
+  const httpAdapter = app.get(HttpAdapterHost)
+  app.useGlobalFilters(new AllExceptionFilter(httpAdapter, app.get(loggerDiTypes.logger)))
 
   await app.listen(environment('port'))
 }

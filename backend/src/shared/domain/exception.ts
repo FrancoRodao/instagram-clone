@@ -15,17 +15,17 @@ export enum statusCodeError{
 export class Exception extends Error {
   public codeError: Errors
   public statusCodeError: statusCodeError
-  public description?: string
+  public descriptionToUser: string
   public timestamp: string
 
-  constructor (codeError: Errors, statusCodeError: statusCodeError, description?: string) {
-    super(description)
+  constructor (codeError: Errors, statusCodeError: statusCodeError, descriptionToUser: string = '') {
+    super(descriptionToUser)
 
     Object.setPrototypeOf(this, new.target.prototype)
 
-    this.timestamp = new Date().toISOString()
-    this.description = description
     this.codeError = codeError
     this.statusCodeError = statusCodeError
+    this.descriptionToUser = descriptionToUser
+    this.timestamp = new Date().toISOString()
   }
 }
