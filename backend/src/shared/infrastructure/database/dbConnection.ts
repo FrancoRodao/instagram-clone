@@ -3,11 +3,15 @@ import { SequelizeUserFollowingModel, SequelizeUserModel } from '../../../users/
 import { environment } from '../config/environment.config'
 import { SequelizePostCommentModel, SequelizePostLikeModel, SequelizePostModel } from '../../../posts/infrastructure'
 import { SequelizeUserTaggedInPostModel } from '../../../posts/infrastructure/models/userTaggedInPostModelImpl'
+import { ILogger } from '../../../logger/domain'
 
 export class DatabaseConnection {
   private sequelize: Sequelize
+  private logger: ILogger
 
-  constructor () {
+  constructor (logger: ILogger) {
+    this.logger = logger
+
     this.sequelize = new Sequelize({
       dialect: 'postgres',
       host: environment('dbHost'),
@@ -19,14 +23,8 @@ export class DatabaseConnection {
         SequelizePostCommentModel, SequelizeUserFollowingModel,
         SequelizeUserTaggedInPostModel
       ],
-      // TODO: LOGGER
-      logging: false
-      // logging: (msg: string) => logger.debug(msg)
+      logging: (msg: string) => logger.debug(msg)
     })
-  }
-
-  public async initConnection (): Promise<void> {
-    await this.connect()
   }
 
   public async connect (): Promise<void> {
@@ -34,12 +32,11 @@ export class DatabaseConnection {
       await this.sequelize.drop({ cascade: true })
       await this.sequelize.sync({ force: true })
       await this.sequelize.authenticate()
-      // TODO: LOGGER
-      // logger.info('Database connection has been established successfully.')
-    } catch (err) {
+
+      this.logger.info('Database connection has been established successfully.')
+    } catch (error) {
       // TODO: SHUTDOWN NODE JS PROCESS
-      // TODO: LOGGER
-      // logger.error(`Unable to connect to the database: ${error}`)
+      this.logger.error(`Unable to connect to the database: ${error}`)
     }
   }
 
