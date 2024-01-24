@@ -2,12 +2,14 @@ import { IEncryptService } from '../domain'
 import { Exception, Errors, IUseCase, statusCodeError } from '../../shared/domain'
 import { IUserDto, IUserRepository } from '../../users/domain'
 import { ILogger } from '../../logger/domain'
+import { I18NService } from '../../i18n/domain'
 
 export class SignUpUser implements IUseCase<IUserDto, IUserDto> {
   constructor (
     private userRepository: IUserRepository,
     private encryptService: IEncryptService,
-    private logger: ILogger
+    private logger: ILogger,
+    private I18NService: I18NService
   ) {}
 
   async execute (userDto: IUserDto): Promise<IUserDto> {
@@ -18,7 +20,7 @@ export class SignUpUser implements IUseCase<IUserDto, IUserDto> {
       throw new Exception(
         Errors.FIELD_ALREADY_EXISTS,
         statusCodeError.BAD_REQUEST,
-        'El email del usuario ya esta registrado'
+        this.I18NService.translate('errors.EmailIsAlreadyRegistered')
       )
     }
 
@@ -29,7 +31,7 @@ export class SignUpUser implements IUseCase<IUserDto, IUserDto> {
       throw new Exception(
         Errors.FIELD_ALREADY_EXISTS,
         statusCodeError.BAD_REQUEST,
-        'El nombre de usuario ya esta registrado'
+        this.I18NService.translate('errors.UsernameIsAlreadyRegistered')
       )
     }
 

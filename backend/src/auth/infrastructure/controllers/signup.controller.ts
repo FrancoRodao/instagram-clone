@@ -1,16 +1,20 @@
 import { Body, Controller, Inject, Post } from '@nestjs/common'
 import { IAuthTokenService } from '../../domain'
-import { IController, IControllerResponse } from '../../../shared/domain'
 import { SignUpUser } from '../../application'
 import { CreateUserDto } from '../dtos/createUserDto'
 import { authDiTypes } from '../authDiTypes'
+import { IController, IControllerResponse } from '../../../shared/domain'
+import { I18NService } from '../../../i18n/domain'
+import { i18nDiTypes } from '../../../i18n/infrastructure'
 
 @Controller('auth/signup')
 export class SignUpController implements IController {
   constructor (
     private signUpUseCase: SignUpUser,
     @Inject(authDiTypes.AuthTokenService)
-    private authTokenService: IAuthTokenService
+    private authTokenService: IAuthTokenService,
+    @Inject(i18nDiTypes.I18N)
+    private I18NService: I18NService
   ) { }
 
   @Post()
@@ -20,8 +24,7 @@ export class SignUpController implements IController {
 
     return {
       ok: true,
-      // TODO: translations
-      msg: 'user created',
+      msg: this.I18NService.translate('UserRegistered'),
       user,
       accessToken,
       refreshToken

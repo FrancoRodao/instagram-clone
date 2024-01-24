@@ -1,7 +1,6 @@
 import { IsEmail, IsNumber, IsString, Min, MinLength } from 'class-validator'
 import { IUserDto } from '../../../users/domain'
 
-// TODO: TRANSLATIONS
 export class CreateUserDto implements IUserDto {
     @MinLength(5, {
       message: 'fullName Must Have At Least 5 Characters '

@@ -1,3 +1,4 @@
+import { I18NService } from '../../i18n/domain'
 import { ILogger } from '../../logger/domain'
 import { Exception, Errors, IUseCase, statusCodeError } from '../../shared/domain'
 import { IUserDto, IUserRepository } from '../../users/domain'
@@ -7,7 +8,8 @@ export class SignInUser implements IUseCase<ISignInUserDto, IUserDto> {
   constructor (
         private userRepository: IUserRepository,
         private encryptService: IEncryptService,
-        private logger: ILogger
+        private logger: ILogger,
+        private I18NService: I18NService
   ) { }
 
   async execute (userDto: ISignInUserDto): Promise<IUserDto> {
@@ -16,9 +18,9 @@ export class SignInUser implements IUseCase<ISignInUserDto, IUserDto> {
 
     if (!user) {
       throw new Exception(
-        Errors.FIELD_ALREADY_EXISTS,
+        Errors.INVALID_CREDENTIALS,
         statusCodeError.BAD_REQUEST,
-        'Las credenciales son incorrectas'
+        this.I18NService.translate('errors.InvalidUserCredentials')
       )
     }
 
@@ -26,9 +28,9 @@ export class SignInUser implements IUseCase<ISignInUserDto, IUserDto> {
 
     if (!isCorrectPassword) {
       throw new Exception(
-        Errors.FIELD_ALREADY_EXISTS,
+        Errors.INVALID_CREDENTIALS,
         statusCodeError.BAD_REQUEST,
-        'Las credenciales son incorrectas'
+        this.I18NService.translate('errors.InvalidUserCredentials')
       )
     }
 

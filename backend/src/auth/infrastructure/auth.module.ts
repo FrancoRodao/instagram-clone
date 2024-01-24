@@ -11,26 +11,30 @@ import { SignInController } from './controllers/signin.controller'
 import { authDiTypes } from './authDiTypes'
 import { ILogger, loggerDiTypes } from '../../logger/domain'
 import { LoggerModule } from '../../logger/infrastructure'
+import { I18NModule, i18nDiTypes } from '../../i18n/infrastructure'
+import { I18NService } from '../../i18n/domain'
 
 const SignInUserProvider: Provider = {
   provide: SignInUser,
-  useFactory: (userRepository: IUserRepository, encryptService: IEncryptService, loggerService: ILogger) =>
-    new SignInUser(userRepository, encryptService, loggerService),
+  useFactory: (userRepository: IUserRepository, encryptService: IEncryptService, loggerService: ILogger, i18nService: I18NService) =>
+    new SignInUser(userRepository, encryptService, loggerService, i18nService),
   inject: [
     { token: usersDiTypes.UserRepository, optional: false },
     { token: authDiTypes.EncryptService, optional: false },
-    { token: loggerDiTypes.logger, optional: false }
+    { token: loggerDiTypes.logger, optional: false },
+    { token: i18nDiTypes.I18N, optional: false }
   ]
 }
 
 const SignUpUserProvider: Provider = {
   provide: SignUpUser,
-  useFactory: (userRepository: IUserRepository, encryptService: IEncryptService, loggerService: ILogger) =>
-    new SignUpUser(userRepository, encryptService, loggerService),
+  useFactory: (userRepository: IUserRepository, encryptService: IEncryptService, loggerService: ILogger, i18nService: I18NService) =>
+    new SignUpUser(userRepository, encryptService, loggerService, i18nService),
   inject: [
     { token: usersDiTypes.UserRepository, optional: false },
     { token: authDiTypes.EncryptService, optional: false },
-    { token: loggerDiTypes.logger, optional: false }
+    { token: loggerDiTypes.logger, optional: false },
+    { token: i18nDiTypes.I18N, optional: false }
   ]
 }
 
@@ -56,6 +60,6 @@ const AuthTokenServiceProvider: Provider = {
     AuthTokenServiceProvider
   ],
   controllers: [SignUpController, SignInController],
-  imports: [UsersModule, LoggerModule]
+  imports: [I18NModule, UsersModule, LoggerModule]
 })
 export class AuthModule {}

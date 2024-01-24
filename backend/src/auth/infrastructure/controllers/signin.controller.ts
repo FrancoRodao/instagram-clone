@@ -20,7 +20,6 @@ export class SignInController implements IController {
 
     return {
       ok: true,
-      // TODO: translations
       msg: 'user logged in',
       user,
       accessToken,
