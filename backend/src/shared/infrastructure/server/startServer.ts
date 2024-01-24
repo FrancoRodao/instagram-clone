@@ -7,7 +7,7 @@ import { ValidationExceptionWrapper } from '../validationExceptionWrapper'
 import { loggerDiTypes } from '../../../logger/domain'
 import { i18nDiTypes } from '../../../i18n/infrastructure'
 
-export async function startAPIServer () {
+export async function startAPIServer (): Promise<void> {
   const app = await NestFactory.create(AppModule)
 
   app.useGlobalPipes(new ValidationPipe({

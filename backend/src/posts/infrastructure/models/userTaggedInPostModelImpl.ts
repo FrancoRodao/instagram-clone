@@ -1,5 +1,5 @@
 import { Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript'
-import { IUserTaggedInPost } from '../../domain'
+import { type IUserTaggedInPost } from '../../domain'
 import { SequelizeUserModel } from '../../../users/infrastructure'
 import { SequelizePostModel } from './postModelImpl'
 

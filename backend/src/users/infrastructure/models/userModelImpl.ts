@@ -1,8 +1,8 @@
 import { Table, Model, Column, DataType, HasMany, BelongsToMany } from 'sequelize-typescript'
-import { IUserDto, DEFAULT_USER_ROLE, IRoles, IUserModel, ROLES } from '../../domain'
+import { type IUserDto, DEFAULT_USER_ROLE, IRoles, type IUserModel, ROLES } from '../../domain'
 import { SequelizePostCommentModel, SequelizePostLikeModel, SequelizePostModel, SequelizeUserTaggedInPostModel } from '../../../posts/infrastructure'
 import { SequelizeUserFollowingModel } from './userFollowingModelImpl'
-import { IPostCommentModel, IPostLikeModel, IPostModel } from '../../../posts/domain'
+import { type IPostCommentModel, type IPostLikeModel, type IPostModel } from '../../../posts/domain'
 
 @Table({
   modelName: 'user'
@@ -69,7 +69,7 @@ export class SequelizeUserModel extends
 
   // associations
   @BelongsToMany(() => SequelizeUserModel, () => SequelizeUserFollowingModel, 'userId')
-    userFollowed!: Array<IUserModel & {BookAuthor: IUserModel}>
+    userFollowed!: Array<IUserModel & { BookAuthor: IUserModel }>
 
   @BelongsToMany(() => SequelizeUserModel, () => SequelizeUserFollowingModel, 'userFollowedId')
     userFollowers!: IUserModel[]

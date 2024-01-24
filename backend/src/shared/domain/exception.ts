@@ -6,7 +6,7 @@ export enum Errors {
   TRANSLATION_ERROR = 'TRANSLATION_ERROR'
 }
 
-export enum statusCodeError{
+export enum statusCodeError {
   BAD_REQUEST = 400,
   NOT_FOUND = 404,
   FORBIDDEN = 401

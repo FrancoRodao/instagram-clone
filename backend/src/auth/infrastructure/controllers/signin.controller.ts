@@ -1,6 +1,6 @@
 import { Body, Controller, Inject, Post } from '@nestjs/common'
 import { IAuthTokenService } from '../../domain'
-import { IController, IControllerResponse } from '../../../shared/domain'
+import { type IController, type IControllerResponse } from '../../../shared/domain'
 import { authDiTypes } from '../authDiTypes'
 import { SignInUser } from '../../application'
 import { SignInUserDto } from '../dtos/signInUserDto'
@@ -8,9 +8,9 @@ import { SignInUserDto } from '../dtos/signInUserDto'
 @Controller('auth/signin')
 export class SignInController implements IController {
   constructor (
-    private signInUseCase: SignInUser,
+    private readonly signInUseCase: SignInUser,
     @Inject(authDiTypes.AuthTokenService)
-    private authTokenService: IAuthTokenService
+    private readonly authTokenService: IAuthTokenService
   ) { }
 
   @Post()

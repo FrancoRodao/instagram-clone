@@ -1,27 +1,27 @@
-import { Response } from 'express'
+import { type Response } from 'express'
 import { HttpAdapterHost } from '@nestjs/core'
-import { ExceptionFilter, Catch, ArgumentsHost, Inject } from '@nestjs/common'
+import { type ExceptionFilter, Catch, type ArgumentsHost, Inject } from '@nestjs/common'
 import { ValidationExceptionWrapper } from './validationExceptionWrapper'
 import { Exception } from '../domain'
 import { ILogger, loggerDiTypes } from '../../logger/domain'
-import { I18NService } from '../../i18n/domain'
+import { I18NService as I18NServiceAbstract } from '../../i18n/domain'
 import { i18nDiTypes } from '../../i18n/infrastructure'
 
-interface IErrorResponseBody{
-  ok: boolean,
-  statusCode: number,
-  msg: Object
+interface IErrorResponseBody {
+  ok: boolean
+  statusCode: number
+  msg: unknown
 }
 
 @Catch()
 export class AllExceptionFilter implements ExceptionFilter {
   constructor (
-    private httpAdapterHost: HttpAdapterHost,
-    @Inject(loggerDiTypes.logger) private logger: ILogger,
-    @Inject(i18nDiTypes.I18N) private I18NService: I18NService
+    private readonly httpAdapterHost: HttpAdapterHost,
+    @Inject(loggerDiTypes.logger) private readonly logger: ILogger,
+    @Inject(i18nDiTypes.I18N) private readonly I18NService: I18NServiceAbstract
   ) { }
 
-  catch (exception: unknown, host: ArgumentsHost) {
+  catch (exception: unknown, host: ArgumentsHost): any {
     const { httpAdapter } = this.httpAdapterHost
     const ctx = host.switchToHttp()
     const response = ctx.getResponse<Response>()
@@ -62,7 +62,7 @@ export class AllExceptionFilter implements ExceptionFilter {
     if (exception instanceof Error) {
       this.logger.error('Unexpected error', {
         ...exception,
-        stack: exception.stack || 'failed to get error stack'
+        stack: exception.stack ?? 'failed to get error stack'
       })
     } else {
       this.logger.error('Unexpected error', { info: 'exception is not an instance of error' })

@@ -1,6 +1,6 @@
 import { Table, DataType, Column, Model, ForeignKey } from 'sequelize-typescript'
 import { SequelizeUserModel } from '..'
-import { IUserFollowing } from '../../domain'
+import { type IUserFollowing } from '../../domain'
 
 @Table({
   modelName: 'userFollowing'

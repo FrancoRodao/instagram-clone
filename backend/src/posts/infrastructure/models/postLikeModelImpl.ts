@@ -1,5 +1,5 @@
 import { ForeignKey, Model, Table } from 'sequelize-typescript'
-import { IPostLikeModel } from '../../domain'
+import { type IPostLikeModel } from '../../domain'
 import { SequelizeUserModel } from '../../../users/infrastructure'
 import { SequelizePostModel } from './postModelImpl'
 

@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common'
+import { type MiddlewareConsumer, Module, type NestModule } from '@nestjs/common'
 import { UsersModule } from '../../users/infrastructure'
 import { AuthModule } from '../../auth/infrastructure'
 import { I18NMiddleware } from '../../i18n/infrastructure/i18n.middleware'
@@ -8,7 +8,7 @@ import { I18NModule } from '../../i18n/infrastructure/i18n.module'
   imports: [I18NModule, UsersModule, AuthModule]
 })
 export class AppModule implements NestModule {
-  configure (consumer: MiddlewareConsumer) {
+  configure (consumer: MiddlewareConsumer): void {
     consumer
       .apply(I18NMiddleware)
       .forRoutes('*')

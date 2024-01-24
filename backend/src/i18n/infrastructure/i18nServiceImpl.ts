@@ -1,5 +1,5 @@
-import i18next, { Resource } from 'i18next'
-import { I18NService, IAvailableLanguages, IAvailableLanguagesConfig, ITranslationsKeys, Ii18nOptions, localeEN, localeES } from '../domain'
+import i18next, { type Resource } from 'i18next'
+import { I18NService, type IAvailableLanguages, type IAvailableLanguagesConfig, type ITranslationsKeys, type Ii18nOptions, localeEN, localeES } from '../domain'
 import { isDevelopmentENV } from '../../shared/domain'
 
 export class I18NNextService extends I18NService {
@@ -21,14 +21,14 @@ export class I18NNextService extends I18NService {
 
   constructor () {
     super()
-    this.init()
+    void this.init()
   }
 
   translate (key: ITranslationsKeys, options?: Ii18nOptions): string {
     return i18next.t(key, options).toString()
   }
 
-  private async init () {
+  private async init (): Promise<void> {
     // transform availableLanguages to i18next resources
     const resources: Resource = {}
     const resourcesKeys = Object.keys(this.availableLanguages) as IAvailableLanguages[]
@@ -62,9 +62,9 @@ export class I18NNextService extends I18NService {
   }
 
   // case insensitive
-  changeLanguage (lang: IAvailableLanguages) {
+  async changeLanguage (lang: IAvailableLanguages): Promise<void> {
     const langFound = this.getLanguages().find(l => l.toLocaleLowerCase() === lang.toLocaleLowerCase())
-    i18next.changeLanguage(langFound)
+    await i18next.changeLanguage(langFound)
     this.currentLanguage = lang
   }
 }

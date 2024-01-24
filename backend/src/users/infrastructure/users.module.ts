@@ -1,4 +1,4 @@
-import { Module, Provider } from '@nestjs/common'
+import { Module, type Provider } from '@nestjs/common'
 import { SequelizeUserRepository } from './userRepositoryImpl'
 import { usersDiTypes } from './usersDiTypes'
 

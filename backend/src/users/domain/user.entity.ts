@@ -1,6 +1,6 @@
-import { IPostCommentModel, IPostLikeModel, IPostModel } from '../../posts/domain'
-import { IRoles, IUserModel } from './user.model'
-import { IUserDto } from './user.dto'
+import { type IPostCommentModel, type IPostLikeModel, type IPostModel } from '../../posts/domain'
+import { type IRoles, type IUserModel } from './user.model'
+import { type IUserDto } from './user.dto'
 
 export class UserEntity implements IUserModel {
   public readonly id: string

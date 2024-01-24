@@ -1,4 +1,4 @@
-export interface IPostLikeModel{
+export interface IPostLikeModel {
   readonly userId: string
   readonly postId: string
 }

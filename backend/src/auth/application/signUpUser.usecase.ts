@@ -1,22 +1,22 @@
-import { IEncryptService } from '../domain'
-import { Exception, Errors, IUseCase, statusCodeError } from '../../shared/domain'
-import { IUserDto, IUserRepository } from '../../users/domain'
-import { ILogger } from '../../logger/domain'
-import { I18NService } from '../../i18n/domain'
+import { type IEncryptService } from '../domain'
+import { Exception, Errors, type IUseCase, statusCodeError } from '../../shared/domain'
+import { type IUserDto, type IUserRepository } from '../../users/domain'
+import { type ILogger } from '../../logger/domain'
+import { type I18NService } from '../../i18n/domain'
 
 export class SignUpUser implements IUseCase<IUserDto, IUserDto> {
   constructor (
-    private userRepository: IUserRepository,
-    private encryptService: IEncryptService,
-    private logger: ILogger,
-    private I18NService: I18NService
+    private readonly userRepository: IUserRepository,
+    private readonly encryptService: IEncryptService,
+    private readonly logger: ILogger,
+    private readonly I18NService: I18NService
   ) {}
 
   async execute (userDto: IUserDto): Promise<IUserDto> {
     const userEmailExists = await this.userRepository
       .getByEmail(userDto.email)
 
-    if (userEmailExists) {
+    if (userEmailExists != null) {
       throw new Exception(
         Errors.FIELD_ALREADY_EXISTS,
         statusCodeError.BAD_REQUEST,
@@ -27,7 +27,7 @@ export class SignUpUser implements IUseCase<IUserDto, IUserDto> {
     const userUsernameExists = await this.userRepository
       .getByUsername(userDto.username)
 
-    if (userUsernameExists) {
+    if (userUsernameExists != null) {
       throw new Exception(
         Errors.FIELD_ALREADY_EXISTS,
         statusCodeError.BAD_REQUEST,

@@ -1,7 +1,7 @@
-import { Module, Provider } from '@nestjs/common'
-import { IEncryptService } from '../domain'
+import { Module, type Provider } from '@nestjs/common'
+import { type IEncryptService } from '../domain'
 import { SignInUser, SignUpUser } from '../application'
-import { IUserRepository } from '../../users/domain'
+import { type IUserRepository } from '../../users/domain'
 import { UsersModule, usersDiTypes } from '../../users/infrastructure'
 import { AuthTokenService } from './services/authTokenServiceImpl'
 import { JwtService } from './services/jwtServiceImpl'
@@ -9,10 +9,10 @@ import { EncryptService } from './services/encryptServiceImpl'
 import { SignUpController } from './controllers/signup.controller'
 import { SignInController } from './controllers/signin.controller'
 import { authDiTypes } from './authDiTypes'
-import { ILogger, loggerDiTypes } from '../../logger/domain'
+import { type ILogger, loggerDiTypes } from '../../logger/domain'
 import { LoggerModule } from '../../logger/infrastructure'
 import { I18NModule, i18nDiTypes } from '../../i18n/infrastructure'
-import { I18NService } from '../../i18n/domain'
+import { type I18NService } from '../../i18n/domain'
 
 const SignInUserProvider: Provider = {
   provide: SignInUser,

@@ -1,4 +1,4 @@
-import { IUserDto, IUserRepository, UserEntity } from '../domain'
+import { type IUserDto, type IUserRepository, UserEntity } from '../domain'
 import { SequelizeUserModel } from './models/userModelImpl'
 
 export class SequelizeUserRepository implements IUserRepository {
@@ -15,7 +15,7 @@ export class SequelizeUserRepository implements IUserRepository {
       where: { email }
     })
 
-    return userFound ? new UserEntity(userFound.dataValues) : null
+    return (userFound != null) ? new UserEntity(userFound.dataValues) : null
   }
 
   async getByUsername (username: string): Promise<UserEntity | null> {
@@ -23,12 +23,12 @@ export class SequelizeUserRepository implements IUserRepository {
       where: { username }
     })
 
-    return userFound ? new UserEntity(userFound.dataValues) : null
+    return (userFound != null) ? new UserEntity(userFound.dataValues) : null
   }
 
   async getById (id: string): Promise<UserEntity | null> {
     const userFound = await SequelizeUserModel.findByPk(id)
 
-    return userFound ? new UserEntity(userFound.dataValues) : null
+    return (userFound != null) ? new UserEntity(userFound.dataValues) : null
   }
 }

@@ -1,4 +1,4 @@
-import { ITranslationStructure } from './locales/translationStructure'
+import { type ITranslationStructure } from './locales/translationStructure'
 
 export type IAvailableLanguages = 'en' | 'es'
 export type IAvailableLanguagesConfig = Record<IAvailableLanguages, { translationFile: ITranslationStructure }>
@@ -8,9 +8,7 @@ export function getTranslationKey (key: ITranslationsKeys): string {
   return key
 }
 
-export type Ii18nOptions = {
-  [key: string]: string | number
-}
+export type Ii18nOptions = Record<string, string | number>
 
 export abstract class I18NService {
   protected abstract defaultLanguage: IAvailableLanguages
@@ -28,8 +26,8 @@ export abstract class I18NService {
       in this case 'FIELD='Full name' and X='5'
     /*
   */
-  public abstract translate(translationKey: ITranslationsKeys, options?: Ii18nOptions): string
-  public abstract getLanguages(): IAvailableLanguages[]
-  public abstract isAvailableLanguage(lang: string): boolean
-  public abstract changeLanguage(lang: IAvailableLanguages): void
+  public abstract translate (translationKey: ITranslationsKeys, options?: Ii18nOptions): string
+  public abstract getLanguages (): IAvailableLanguages[]
+  public abstract isAvailableLanguage (lang: string): boolean
+  public abstract changeLanguage (lang: IAvailableLanguages): void
 }

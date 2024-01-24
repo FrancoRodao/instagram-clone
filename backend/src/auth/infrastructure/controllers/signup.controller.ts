@@ -3,18 +3,18 @@ import { IAuthTokenService } from '../../domain'
 import { SignUpUser } from '../../application'
 import { CreateUserDto } from '../dtos/createUserDto'
 import { authDiTypes } from '../authDiTypes'
-import { IController, IControllerResponse } from '../../../shared/domain'
-import { I18NService } from '../../../i18n/domain'
+import { type IController, type IControllerResponse } from '../../../shared/domain'
 import { i18nDiTypes } from '../../../i18n/infrastructure'
+import { I18NService as I18NServiceAbstract } from '../../../i18n/domain'
 
 @Controller('auth/signup')
 export class SignUpController implements IController {
   constructor (
-    private signUpUseCase: SignUpUser,
+    private readonly signUpUseCase: SignUpUser,
     @Inject(authDiTypes.AuthTokenService)
-    private authTokenService: IAuthTokenService,
+    private readonly authTokenService: IAuthTokenService,
     @Inject(i18nDiTypes.I18N)
-    private I18NService: I18NService
+    private readonly I18NService: I18NServiceAbstract
   ) { }
 
   @Post()

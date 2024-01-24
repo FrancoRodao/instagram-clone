@@ -3,11 +3,11 @@ import { SequelizeUserFollowingModel, SequelizeUserModel } from '../../../users/
 import { environment } from '../config/environment.config'
 import { SequelizePostCommentModel, SequelizePostLikeModel, SequelizePostModel } from '../../../posts/infrastructure'
 import { SequelizeUserTaggedInPostModel } from '../../../posts/infrastructure/models/userTaggedInPostModelImpl'
-import { ILogger } from '../../../logger/domain'
+import { type ILogger } from '../../../logger/domain'
 
 export class DatabaseConnection {
-  private sequelize: Sequelize
-  private logger: ILogger
+  private readonly sequelize: Sequelize
+  private readonly logger: ILogger
 
   constructor (logger: ILogger) {
     this.logger = logger
@@ -23,7 +23,7 @@ export class DatabaseConnection {
         SequelizePostCommentModel, SequelizeUserFollowingModel,
         SequelizeUserTaggedInPostModel
       ],
-      logging: (msg: string) => logger.debug(msg)
+      logging: (msg: string) => { logger.debug(msg) }
     })
   }
 
@@ -36,6 +36,7 @@ export class DatabaseConnection {
       this.logger.info('Database connection has been established successfully.')
     } catch (error) {
       // TODO: SHUTDOWN NODE JS PROCESS
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       this.logger.error(`Unable to connect to the database: ${error}`)
     }
   }

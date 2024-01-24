@@ -1,4 +1,4 @@
-import { ITranslationStructure } from './translationStructure'
+import { type ITranslationStructure } from './translationStructure'
 /*
   ---= CONVECTION =---
 

@@ -1,12 +1,12 @@
 import { IsString, IsEmail } from 'class-validator'
-import { ISignInUserDto } from '../../domain/signInUser.dto'
+import { type ISignInUserDto } from '../../domain/signInUser.dto'
 
 export class SignInUserDto implements ISignInUserDto {
-    @IsEmail({}, {
-      message: 'Invalid email'
-    })
-      email!: string
+  @IsEmail({}, {
+    message: 'Invalid email'
+  })
+    email!: string
 
-    @IsString()
-      password!: string
+  @IsString()
+    password!: string
 }

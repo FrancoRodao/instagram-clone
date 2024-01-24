@@ -1,7 +1,7 @@
-import { IUserModel } from '../../users/domain'
+import { type IUserModel } from '../../users/domain'
 
 export interface IPostCommentModel {
-  readonly userId: string,
+  readonly userId: string
   readonly postId: string
   readonly commentBody: string
 

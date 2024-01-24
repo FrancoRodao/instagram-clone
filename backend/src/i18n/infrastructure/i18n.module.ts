@@ -1,4 +1,4 @@
-import { Module, Provider } from '@nestjs/common'
+import { Module, type Provider } from '@nestjs/common'
 import { i18nDiTypes } from './i18nDiTypes'
 import { I18NNextService } from './i18nServiceImpl'
 

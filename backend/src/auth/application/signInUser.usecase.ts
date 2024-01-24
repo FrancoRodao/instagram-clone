@@ -1,22 +1,22 @@
-import { I18NService } from '../../i18n/domain'
-import { ILogger } from '../../logger/domain'
-import { Exception, Errors, IUseCase, statusCodeError } from '../../shared/domain'
-import { IUserDto, IUserRepository } from '../../users/domain'
-import { ISignInUserDto, IEncryptService } from '../domain'
+import { type I18NService } from '../../i18n/domain'
+import { type ILogger } from '../../logger/domain'
+import { Exception, Errors, type IUseCase, statusCodeError } from '../../shared/domain'
+import { type IUserDto, type IUserRepository } from '../../users/domain'
+import { type ISignInUserDto, type IEncryptService } from '../domain'
 
 export class SignInUser implements IUseCase<ISignInUserDto, IUserDto> {
   constructor (
-        private userRepository: IUserRepository,
-        private encryptService: IEncryptService,
-        private logger: ILogger,
-        private I18NService: I18NService
+    private readonly userRepository: IUserRepository,
+    private readonly encryptService: IEncryptService,
+    private readonly logger: ILogger,
+    private readonly I18NService: I18NService
   ) { }
 
   async execute (userDto: ISignInUserDto): Promise<IUserDto> {
     const user = await this.userRepository
       .getByEmail(userDto.email)
 
-    if (!user) {
+    if (user == null) {
       throw new Exception(
         Errors.INVALID_CREDENTIALS,
         statusCodeError.BAD_REQUEST,
@@ -24,7 +24,7 @@ export class SignInUser implements IUseCase<ISignInUserDto, IUserDto> {
       )
     }
 
-    const isCorrectPassword = this.encryptService.compare(userDto.password, user.password)
+    const isCorrectPassword = await this.encryptService.compare(userDto.password, user.password)
 
     if (!isCorrectPassword) {
       throw new Exception(
