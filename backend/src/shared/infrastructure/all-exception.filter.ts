@@ -1,9 +1,11 @@
 import { Response } from 'express'
 import { HttpAdapterHost } from '@nestjs/core'
-import { ExceptionFilter, Catch, ArgumentsHost } from '@nestjs/common'
-import { Exception } from '../../domain'
-import { ILogger } from '../../../logger/domain'
+import { ExceptionFilter, Catch, ArgumentsHost, Inject } from '@nestjs/common'
 import { ValidationExceptionWrapper } from './validationExceptionWrapper'
+import { Exception } from '../domain'
+import { ILogger, loggerDiTypes } from '../../logger/domain'
+import { I18NService } from '../../i18n/domain'
+import { i18nDiTypes } from '../../i18n/infrastructure'
 
 interface IErrorResponseBody{
   ok: boolean,
@@ -14,8 +16,9 @@ interface IErrorResponseBody{
 @Catch()
 export class AllExceptionFilter implements ExceptionFilter {
   constructor (
-    private readonly httpAdapterHost: HttpAdapterHost,
-    private logger: ILogger
+    private httpAdapterHost: HttpAdapterHost,
+    @Inject(loggerDiTypes.logger) private logger: ILogger,
+    @Inject(i18nDiTypes.I18N) private I18NService: I18NService
   ) { }
 
   catch (exception: unknown, host: ArgumentsHost) {
@@ -53,8 +56,7 @@ export class AllExceptionFilter implements ExceptionFilter {
     responseBody = {
       ok: false,
       statusCode: status,
-      // TODO: TRANSLATION
-      msg: 'Unexpected error'
+      msg: this.I18NService.translate('errors.UnexpectedError')
     }
 
     if (exception instanceof Error) {
