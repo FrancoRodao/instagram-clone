@@ -15,7 +15,7 @@ export class I18NMiddleware implements NestMiddleware {
 
     if (typeof acceptLanguageHeader !== 'string' || acceptLanguageHeader === '') {
       throw new Exception(
-        Errors.TRANSLATION_ERROR,
+        Errors.CommonErrors.TRANSLATION_ERROR,
         statusCodeError.BAD_REQUEST,
         isProductionENV
           ? this.I18NService.translate('errors.TranslationError')
@@ -25,7 +25,7 @@ export class I18NMiddleware implements NestMiddleware {
 
     if (!this.I18NService.isAvailableLanguage(acceptLanguageHeader)) {
       throw new Exception(
-        Errors.TRANSLATION_ERROR,
+        Errors.CommonErrors.TRANSLATION_ERROR,
         statusCodeError.BAD_REQUEST,
         isProductionENV
           ? this.I18NService.translate('errors.TranslationError')

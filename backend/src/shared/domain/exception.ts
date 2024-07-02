@@ -1,10 +1,17 @@
 /* eslint-disable no-unused-vars */
 
-export enum Errors {
+enum CommonErrors {
   FIELD_ALREADY_EXISTS = 'FIELD_ALREADY_EXISTS',
-  INVALID_CREDENTIALS = 'INVALID_CREDENTIALS',
   TRANSLATION_ERROR = 'TRANSLATION_ERROR'
 }
+
+enum AuthErrors {
+  INVALID_AUTHORIZATION_TOKEN = 'INVALID_AUTHORIZATION_TOKEN',
+  INVALID_CREDENTIALS = 'INVALID_CREDENTIALS'
+}
+
+type ErrorsType = CommonErrors | AuthErrors
+export const Errors = { CommonErrors, AuthErrors }
 
 export enum statusCodeError {
   BAD_REQUEST = 400,
@@ -14,12 +21,12 @@ export enum statusCodeError {
 /* eslint-disable no-unused-vars */
 
 export class Exception extends Error {
-  public codeError: Errors
+  public codeError: ErrorsType
   public statusCodeError: statusCodeError
   public descriptionToUser: string
   public timestamp: string
 
-  constructor (codeError: Errors, statusCodeError: statusCodeError, descriptionToUser: string = '') {
+  constructor (codeError: ErrorsType, statusCodeError: statusCodeError, descriptionToUser: string = '') {
     super(descriptionToUser)
 
     Object.setPrototypeOf(this, new.target.prototype)
