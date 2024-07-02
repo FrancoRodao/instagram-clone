@@ -1,8 +1,8 @@
 import { Module, type Provider } from '@nestjs/common'
-import { type IEncryptService } from '../domain'
-import { SignInUser, SignUpUser } from '../application'
+import { type IEncryptService } from '../domain/services/encryptService.interface'
+import { SignInUser } from '../application/signInUser.usecase'
 import { type IUserRepository } from '../../users/domain'
-import { UsersModule, usersDiTypes } from '../../users/infrastructure'
+import { UsersModule } from '../../users/infrastructure/users.module'
 import { AuthTokenService } from './services/authTokenServiceImpl'
 import { JwtService } from './services/jwtServiceImpl'
 import { EncryptService } from './services/encryptServiceImpl'
@@ -13,6 +13,8 @@ import { type ILogger, loggerDiTypes } from '../../logger/domain'
 import { LoggerModule } from '../../logger/infrastructure'
 import { I18NModule, i18nDiTypes } from '../../i18n/infrastructure'
 import { type I18NService } from '../../i18n/domain'
+import { usersDiTypes } from '../../users/infrastructure/usersDiTypes'
+import { SignUpUser } from '../application/signUpUser.usecase'
 
 const SignInUserProvider: Provider = {
   provide: SignInUser,
@@ -21,7 +23,7 @@ const SignInUserProvider: Provider = {
   inject: [
     { token: usersDiTypes.UserRepository, optional: false },
     { token: authDiTypes.EncryptService, optional: false },
-    { token: loggerDiTypes.logger, optional: false },
+    { token: loggerDiTypes.Logger, optional: false },
     { token: i18nDiTypes.I18N, optional: false }
   ]
 }
@@ -33,7 +35,7 @@ const SignUpUserProvider: Provider = {
   inject: [
     { token: usersDiTypes.UserRepository, optional: false },
     { token: authDiTypes.EncryptService, optional: false },
-    { token: loggerDiTypes.logger, optional: false },
+    { token: loggerDiTypes.Logger, optional: false },
     { token: i18nDiTypes.I18N, optional: false }
   ]
 }
@@ -55,11 +57,12 @@ const AuthTokenServiceProvider: Provider = {
 
 @Module({
   providers: [
-    SignUpUserProvider, SignInUserProvider, AuthTokenService,
+    SignUpUserProvider, SignInUserProvider,
     JwtServiceProvider, EncryptServiceProvider,
     AuthTokenServiceProvider
   ],
   controllers: [SignUpController, SignInController],
-  imports: [I18NModule, UsersModule, LoggerModule]
+  imports: [I18NModule, UsersModule, LoggerModule],
+  exports: [JwtServiceProvider]
 })
 export class AuthModule {}

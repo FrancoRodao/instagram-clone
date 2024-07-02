@@ -1,8 +1,10 @@
 export interface IJwtServicePayload {
-  username: string
+  userId: string
 }
 
 export interface IJwtService {
-  verifyToken: (token: string, secretKey: string) => Promise<unknown>
-  createToken: (payload: IJwtServicePayload, secret: string, expiresIn: string) => Promise<string>
+  extractJwtFromHttpHeaders: (authorizationHeaderValue: string | undefined | null) => string
+  isValidToken: (token: string) => Promise<boolean>
+  decodeToken: (token: string) => Promise<IJwtServicePayload>
+  createToken: (payload: IJwtServicePayload, expiresIn: string) => Promise<string>
 }

@@ -4,7 +4,8 @@ import { type IUserDto, type IUserRepository } from '../../users/domain'
 import { type ILogger } from '../../logger/domain'
 import { type I18NService } from '../../i18n/domain'
 
-export class SignUpUser implements IUseCase<IUserDto, IUserDto> {
+type IResponse = IUserDto & { userId: string }
+export class SignUpUser implements IUseCase<IUserDto, IResponse> {
   constructor (
     private readonly userRepository: IUserRepository,
     private readonly encryptService: IEncryptService,
@@ -12,13 +13,13 @@ export class SignUpUser implements IUseCase<IUserDto, IUserDto> {
     private readonly I18NService: I18NService
   ) {}
 
-  async execute (userDto: IUserDto): Promise<IUserDto> {
+  async execute (userDto: IUserDto): Promise<IResponse> {
     const userEmailExists = await this.userRepository
       .getByEmail(userDto.email)
 
     if (userEmailExists != null) {
       throw new Exception(
-        Errors.FIELD_ALREADY_EXISTS,
+        Errors.AuthErrors.INVALID_CREDENTIALS,
         statusCodeError.BAD_REQUEST,
         this.I18NService.translate('errors.EmailIsAlreadyRegistered')
       )
@@ -29,7 +30,7 @@ export class SignUpUser implements IUseCase<IUserDto, IUserDto> {
 
     if (userUsernameExists != null) {
       throw new Exception(
-        Errors.FIELD_ALREADY_EXISTS,
+        Errors.CommonErrors.FIELD_ALREADY_EXISTS,
         statusCodeError.BAD_REQUEST,
         this.I18NService.translate('errors.UsernameIsAlreadyRegistered')
       )
@@ -43,6 +44,9 @@ export class SignUpUser implements IUseCase<IUserDto, IUserDto> {
 
     this.logger.info(`SignUpUser use case executed the user ${newUser.username} have been registered.`)
 
-    return newUser.transformToUserDto()
+    return {
+      userId: newUser.id,
+      ...newUser.transformToUserDto()
+    }
   }
 }
