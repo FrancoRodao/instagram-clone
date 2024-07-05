@@ -49,13 +49,20 @@ export class UserEntity implements IUserModel {
 
   transformToUserDto (): IUserDto {
     return {
+      id: this.id,
       fullName: this.fullName,
       email: this.email,
+      role: this.role,
       age: this.age,
       username: this.username,
-      password: this.password,
       biography: this.biography,
-      profilePicture: this.profilePicture
+      profilePicture: this.profilePicture,
+      userFollowers: this.userFollowers,
+      userFollowed: this.userFollowed,
+      posts: this.posts,
+      postsTaggedIn: this.postsTaggedIn,
+      postsLiked: this.postsLiked,
+      postsCommented: this.postsCommented
     }
   }
 }

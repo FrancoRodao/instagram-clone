@@ -6,5 +6,7 @@ type IUserCreate = OmitAndProhibit<IUserModel,
 'postsTaggedIn' | 'postsLiked' |
 'postsCommented' | 'id'>
 
-export type IUserDto =
+export type IUserCreateAttributes =
   Optional<IUserCreate, 'biography' | 'profilePicture'>
+
+export type IUserDto = Omit<IUserModel, 'password'>

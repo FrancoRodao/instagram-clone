@@ -1,7 +1,7 @@
 import { IsEmail, IsNumber, IsString, Min, MinLength } from 'class-validator'
-import { type IUserDto } from '../../../users/domain'
+import { type IUserCreateAttributes } from '../../../users/domain'
 
-export class CreateUserDto implements IUserDto {
+export class CreateUserDto implements IUserCreateAttributes {
   @MinLength(5, {
     message: 'fullName Must Have At Least 5 Characters '
   })

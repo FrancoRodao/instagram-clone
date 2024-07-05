@@ -1,5 +1,5 @@
 import { Table, Model, Column, DataType, HasMany, BelongsToMany } from 'sequelize-typescript'
-import { type IUserDto, DEFAULT_USER_ROLE, IRoles, type IUserModel, ROLES } from '../../domain'
+import { type IUserCreateAttributes, DEFAULT_USER_ROLE, IRoles, type IUserModel, ROLES } from '../../domain'
 import { SequelizePostCommentModel, SequelizePostLikeModel, SequelizePostModel, SequelizeUserTaggedInPostModel } from '../../../posts/infrastructure'
 import { SequelizeUserFollowingModel } from './userFollowingModelImpl'
 import { type IPostCommentModel, type IPostLikeModel, type IPostModel } from '../../../posts/domain'
@@ -8,7 +8,7 @@ import { type IPostCommentModel, type IPostLikeModel, type IPostModel } from '..
   modelName: 'user'
 })
 export class SequelizeUserModel extends
-  Model<IUserModel, IUserDto> implements IUserModel {
+  Model<IUserModel, IUserCreateAttributes> implements IUserModel {
   @Column({
     primaryKey: true,
     type: DataType.UUID,

@@ -1,11 +1,10 @@
 import { type IEncryptService } from '../domain'
 import { Exception, Errors, type IUseCase, statusCodeError } from '../../shared/domain'
-import { type IUserDto, type IUserRepository } from '../../users/domain'
+import { type IUserDto, type IUserCreateAttributes, type IUserRepository } from '../../users/domain'
 import { type ILogger } from '../../logger/domain'
 import { type I18NService } from '../../i18n/domain'
 
-type IResponse = IUserDto & { userId: string }
-export class SignUpUser implements IUseCase<IUserDto, IResponse> {
+export class SignUpUser implements IUseCase<IUserCreateAttributes, IUserDto> {
   constructor (
     private readonly userRepository: IUserRepository,
     private readonly encryptService: IEncryptService,
@@ -13,9 +12,9 @@ export class SignUpUser implements IUseCase<IUserDto, IResponse> {
     private readonly I18NService: I18NService
   ) {}
 
-  async execute (userDto: IUserDto): Promise<IResponse> {
+  async execute (createUserDto: IUserCreateAttributes): Promise<IUserDto> {
     const userEmailExists = await this.userRepository
-      .getByEmail(userDto.email)
+      .getByEmail(createUserDto.email)
 
     if (userEmailExists != null) {
       throw new Exception(
@@ -26,7 +25,7 @@ export class SignUpUser implements IUseCase<IUserDto, IResponse> {
     }
 
     const userUsernameExists = await this.userRepository
-      .getByUsername(userDto.username)
+      .getByUsername(createUserDto.username)
 
     if (userUsernameExists != null) {
       throw new Exception(
@@ -36,17 +35,14 @@ export class SignUpUser implements IUseCase<IUserDto, IResponse> {
       )
     }
 
-    const encryptedPassword = await this.encryptService.hash(userDto.password)
+    const encryptedPassword = await this.encryptService.hash(createUserDto.password)
     const newUser = await this.userRepository.create({
-      ...userDto,
+      ...createUserDto,
       password: encryptedPassword
     })
 
     this.logger.info(`SignUpUser use case executed the user ${newUser.username} have been registered.`)
 
-    return {
-      userId: newUser.id,
-      ...newUser.transformToUserDto()
-    }
+    return newUser.transformToUserDto()
   }
 }

@@ -19,9 +19,9 @@ export class SignInController implements IController {
 
   @Post()
   async execute (@Body() signInUserDto: SignInUserDto): Promise<IControllerResponse> {
-    const { userDTO, userId } = await this.signInUseCase.execute(signInUserDto)
+    const userDTO = await this.signInUseCase.execute(signInUserDto)
 
-    const { accessToken, refreshToken } = await this.authTokenService.generateAuthToken(userId)
+    const { accessToken, refreshToken } = await this.authTokenService.generateAuthToken(userDTO.id)
 
     return {
       ok: true,

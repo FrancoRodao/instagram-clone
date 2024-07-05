@@ -1,3 +1,3 @@
-import { type IUserDto } from '../../users/domain'
+import { type IUserCreateAttributes } from '../../users/domain'
 
-export type ISignInUserDto = Pick<IUserDto, 'email' | 'password'>
+export type ISignInUserDto = Pick<IUserCreateAttributes, 'email' | 'password'>

@@ -21,7 +21,7 @@ export class SignUpController implements IController {
   async execute (@Body() createUserDto: CreateUserDto): Promise<IControllerResponse> {
     const user = await this.signUpUseCase.execute(createUserDto)
 
-    const { accessToken, refreshToken } = await this.authTokenService.generateAuthToken(user.userId)
+    const { accessToken, refreshToken } = await this.authTokenService.generateAuthToken(user.id)
 
     return {
       ok: true,

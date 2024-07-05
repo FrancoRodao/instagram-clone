@@ -4,11 +4,7 @@ import { Exception, Errors, type IUseCase, statusCodeError } from '../../shared/
 import { type IUserDto, type IUserRepository } from '../../users/domain'
 import { type ISignInUserDto, type IEncryptService } from '../domain'
 
-interface ISignInUserUseCaseResponse {
-  userDTO: IUserDto
-  userId: string
-}
-export class SignInUser implements IUseCase<ISignInUserDto, ISignInUserUseCaseResponse> {
+export class SignInUser implements IUseCase<ISignInUserDto, IUserDto> {
   constructor (
     private readonly userRepository: IUserRepository,
     private readonly encryptService: IEncryptService,
@@ -16,7 +12,7 @@ export class SignInUser implements IUseCase<ISignInUserDto, ISignInUserUseCaseRe
     private readonly I18NService: I18NService
   ) { }
 
-  async execute (userDto: ISignInUserDto): Promise<ISignInUserUseCaseResponse> {
+  async execute (userDto: ISignInUserDto): Promise<IUserDto> {
     const user = await this.userRepository
       .getByEmail(userDto.email)
 
@@ -40,9 +36,6 @@ export class SignInUser implements IUseCase<ISignInUserDto, ISignInUserUseCaseRe
 
     this.logger.info(`SignInUser use case executed the user ${user.username} have been logged.`)
 
-    return {
-      userDTO: user.transformToUserDto(),
-      userId: user.id
-    }
+    return user.transformToUserDto()
   }
 }

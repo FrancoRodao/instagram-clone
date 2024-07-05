@@ -1,8 +1,8 @@
-import { type IUserDto, type IUserRepository, UserEntity } from '../domain'
+import { type IUserCreateAttributes, type IUserRepository, UserEntity } from '../domain'
 import { SequelizeUserModel } from './models/userModelImpl'
 
 export class SequelizeUserRepository implements IUserRepository {
-  async create (createUserAttributes: IUserDto): Promise<UserEntity> {
+  async create (createUserAttributes: IUserCreateAttributes): Promise<UserEntity> {
     const newUser = await SequelizeUserModel.create(createUserAttributes)
 
     const userValues = newUser.dataValues
