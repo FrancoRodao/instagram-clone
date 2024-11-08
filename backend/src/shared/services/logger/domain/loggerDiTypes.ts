@@ -1,3 +1,3 @@
 export const loggerDiTypes = {
-  logger: 'logger'
+  Logger: 'logger'
 }

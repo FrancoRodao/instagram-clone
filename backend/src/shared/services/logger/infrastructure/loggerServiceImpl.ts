@@ -1,9 +1,9 @@
 import winston from 'winston'
-import { isDevelopmentENV, isProductionENV, isDebugENV, isTestENV } from '../../shared/domain'
+import { isDevelopmentENV, isProductionENV, isDebugENV, isTestENV } from '../../../domain/environments.config'
 import { type ILogger, type ILoggerInfo } from '../domain/logger.interface'
 
 const formatMetadata = (meta: ILoggerInfo): string => {
-  return Object.keys(meta).length > 0 ? `Metadata: ${JSON.stringify(meta)}` : ''
+  return Object.keys(meta).length > 0 ? `Metadata: \n${JSON.stringify(meta, null, 4)}\n` : ''
 }
 
 const format = winston.format.combine(
@@ -39,7 +39,7 @@ const levels = {
 }
 
 const level = (): string => {
-  return isDevelopmentENV ? 'debug' : 'warn'
+  if (isDevelopmentENV) { return 'debug' } else return 'warn'
 }
 
 export class LoggerService implements ILogger {

@@ -3,7 +3,7 @@ import { LoggerService } from './loggerServiceImpl'
 import { loggerDiTypes } from '../domain/loggerDiTypes'
 
 const loggerProvider: Provider = {
-  provide: loggerDiTypes.logger,
+  provide: loggerDiTypes.Logger,
   useClass: LoggerService
 }
 
