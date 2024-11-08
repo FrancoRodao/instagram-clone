@@ -2,7 +2,7 @@ import { Inject, Injectable, type NestMiddleware } from '@nestjs/common'
 import { type Request, type Response, type NextFunction } from 'express'
 import { i18nDiTypes } from './i18nDiTypes'
 import { I18NService as I18NServiceClass } from '../domain'
-import { Errors, Exception, isProductionENV, statusCodeError } from '../../shared/domain'
+import { Errors, Exception, isProductionENV, statusCodeError } from '../../../domain'
 
 @Injectable()
 export class I18NMiddleware implements NestMiddleware {
@@ -14,12 +14,14 @@ export class I18NMiddleware implements NestMiddleware {
     const acceptLanguageHeader = req.headers['accept-language']
 
     if (typeof acceptLanguageHeader !== 'string' || acceptLanguageHeader === '') {
+      const errorMessage = isProductionENV
+        ? this.I18NService.translate('errors.TranslationError')
+        : 'accept-language header must be a string'
+
       throw new Exception(
         Errors.CommonErrors.TRANSLATION_ERROR,
         statusCodeError.BAD_REQUEST,
-        isProductionENV
-          ? this.I18NService.translate('errors.TranslationError')
-          : 'accept-language header must be a string'
+        errorMessage
       )
     }
 

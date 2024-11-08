@@ -1,6 +1,6 @@
 import i18next, { type Resource } from 'i18next'
 import { I18NService, type IAvailableLanguages, type IAvailableLanguagesConfig, type ITranslationsKeys, type Ii18nOptions, localeEN, localeES } from '../domain'
-import { isDevelopmentENV } from '../../shared/domain'
+import { isDevelopmentENV } from '../../../../shared/domain'
 
 export class I18NNextService extends I18NService {
   public currentLanguage: IAvailableLanguages = 'en'

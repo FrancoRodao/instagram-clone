@@ -3,9 +3,9 @@ import { HttpAdapterHost } from '@nestjs/core'
 import { type ExceptionFilter, Catch, type ArgumentsHost, Inject } from '@nestjs/common'
 import { ValidationExceptionWrapper } from './validationExceptionWrapper'
 import { Exception } from '../domain'
-import { ILogger, loggerDiTypes } from '../../logger/domain'
-import { I18NService as I18NServiceAbstract } from '../../i18n/domain'
-import { i18nDiTypes } from '../../i18n/infrastructure'
+import { ILogger, loggerDiTypes } from '../../shared/services/logger/domain'
+import { I18NService as I18NServiceAbstract } from '../../shared/services/i18n/domain'
+import { i18nDiTypes } from '../../shared/services/i18n/infrastructure'
 
 interface IErrorResponseBody {
   ok: boolean
@@ -17,7 +17,7 @@ interface IErrorResponseBody {
 export class AllExceptionFilter implements ExceptionFilter {
   constructor (
     private readonly httpAdapterHost: HttpAdapterHost,
-    @Inject(loggerDiTypes.logger) private readonly logger: ILogger,
+    @Inject(loggerDiTypes.Logger) private readonly logger: ILogger,
     @Inject(i18nDiTypes.I18N) private readonly I18NService: I18NServiceAbstract
   ) { }
 

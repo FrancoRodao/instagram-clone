@@ -1,8 +1,8 @@
 import { type IEncryptService } from '../domain'
 import { Exception, Errors, type IUseCase, statusCodeError } from '../../shared/domain'
 import { type IUserDto, type IUserCreateAttributes, type IUserRepository } from '../../users/domain'
-import { type ILogger } from '../../logger/domain'
-import { type I18NService } from '../../i18n/domain'
+import { type ILogger } from '../../shared/services/logger/domain'
+import { type I18NService } from '../../shared/services/i18n/domain'
 
 export class SignUpUser implements IUseCase<IUserCreateAttributes, IUserDto> {
   constructor (

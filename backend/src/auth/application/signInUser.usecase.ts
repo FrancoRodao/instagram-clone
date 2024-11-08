@@ -1,5 +1,5 @@
-import { type I18NService } from '../../i18n/domain'
-import { type ILogger } from '../../logger/domain'
+import { type I18NService } from '../../shared/services/i18n/domain'
+import { type ILogger } from '../../shared/services/logger/domain'
 import { Exception, Errors, type IUseCase, statusCodeError } from '../../shared/domain'
 import { type IUserDto, type IUserRepository } from '../../users/domain'
 import { type ISignInUserDto, type IEncryptService } from '../domain'
@@ -18,7 +18,7 @@ export class SignInUser implements IUseCase<ISignInUserDto, IUserDto> {
 
     if (user == null) {
       throw new Exception(
-        Errors.AuthErrors.INVALID_AUTHORIZATION_TOKEN,
+        Errors.AuthErrors.INVALID_CREDENTIALS,
         statusCodeError.BAD_REQUEST,
         this.I18NService.translate('errors.InvalidUserCredentials')
       )
