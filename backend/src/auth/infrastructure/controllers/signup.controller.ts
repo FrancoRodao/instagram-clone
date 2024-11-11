@@ -4,7 +4,7 @@ import { SignUpUser } from '../../application'
 import { CreateUserDto } from '../dtos/createUserDto'
 import { authDiTypes } from '../authDiTypes'
 import { type IController, type IControllerResponse } from '../../../shared/domain'
-import { i18nDiTypes } from '../../../shared/services/i18n/infrastructure'
+import { i18nDiTypes } from '../../../shared/services/i18n/infrastructure/i18nDiTypes'
 import { I18NService } from '../../../shared/services/i18n/domain'
 
 @Controller('auth/signup')

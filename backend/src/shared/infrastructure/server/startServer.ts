@@ -4,8 +4,8 @@ import { AppModule } from '../app.module'
 import { environment } from '../config/environment.config'
 import { AllExceptionFilter } from '../all-exception.filter'
 import { ValidationExceptionWrapper } from '../validationExceptionWrapper'
-import { loggerDiTypes } from '../../../logger/domain'
-import { i18nDiTypes } from '../../../i18n/infrastructure'
+import { loggerDiTypes } from '../../../shared/services/logger/domain'
+import { i18nDiTypes } from '../../../shared/services/i18n/infrastructure/i18nDiTypes'
 
 export async function startAPIServer (): Promise<void> {
   const app = await NestFactory.create(AppModule)
@@ -21,7 +21,7 @@ export async function startAPIServer (): Promise<void> {
   }))
 
   const httpAdapter = app.get(HttpAdapterHost)
-  app.useGlobalFilters(new AllExceptionFilter(httpAdapter, app.get(loggerDiTypes.logger), app.get(i18nDiTypes.I18N)))
+  app.useGlobalFilters(new AllExceptionFilter(httpAdapter, app.get(loggerDiTypes.Logger), app.get(i18nDiTypes.I18N)))
 
   await app.listen(environment('port'))
 }

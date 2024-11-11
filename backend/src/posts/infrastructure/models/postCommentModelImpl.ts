@@ -1,23 +1,30 @@
 import { BelongsTo, Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript'
 import { type IPostCommentModel } from '../../domain'
-import { SequelizeUserModel } from '../../../users/infrastructure'
+import { SequelizeUserModel } from '../../../users/infrastructure/models'
 import { SequelizePostModel } from './postModelImpl'
 import { IUserModel } from '../../../users/domain'
 import { type Optional } from '../../../types'
 
-type PostCommentCreationAttributes = Optional<IPostCommentModel, 'user'>
+type PostCommentCreationAttributes = Optional<IPostCommentModel, 'commentId' | 'user'>
 
 @Table({
   modelName: 'postComment'
 })
 export class SequelizePostCommentModel extends
   Model<IPostCommentModel, PostCommentCreationAttributes> implements IPostCommentModel {
+  @Column({
+    primaryKey: true,
+    type: DataType.UUID,
+    defaultValue: DataType.UUIDV4
+  })
+    commentId!: string
+
   @ForeignKey(() => SequelizeUserModel)
   @Column({
     type: DataType.UUID,
     allowNull: false
   })
-    userId!: string
+    userAuthorId!: string
 
   @ForeignKey(() => SequelizePostModel)
   @Column({

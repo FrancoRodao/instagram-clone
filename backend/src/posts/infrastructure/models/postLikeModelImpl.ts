@@ -1,6 +1,6 @@
-import { ForeignKey, Model, Table } from 'sequelize-typescript'
+import { Column, ForeignKey, Model, Table } from 'sequelize-typescript'
 import { type IPostLikeModel } from '../../domain'
-import { SequelizeUserModel } from '../../../users/infrastructure'
+import { SequelizeUserModel } from '../../../users/infrastructure/models'
 import { SequelizePostModel } from './postModelImpl'
 
 @Table({
@@ -9,8 +9,10 @@ import { SequelizePostModel } from './postModelImpl'
 export class SequelizePostLikeModel extends
   Model<IPostLikeModel, IPostLikeModel> implements IPostLikeModel {
   @ForeignKey(() => SequelizeUserModel)
+  @Column
     userId!: string
 
   @ForeignKey(() => SequelizePostModel)
+  @Column
     postId!: string
 }

@@ -5,7 +5,7 @@ import { authDiTypes } from '../authDiTypes'
 import { SignInUser } from '../../application'
 import { SignInUserDto } from '../dtos/signInUserDto'
 import { I18NService } from '../../../shared/services/i18n/domain'
-import { i18nDiTypes } from '../../../shared/services/i18n/infrastructure'
+import { i18nDiTypes } from '../../../shared/services/i18n/infrastructure/i18nDiTypes'
 
 @Controller('auth/signin')
 export class SignInController implements IController {

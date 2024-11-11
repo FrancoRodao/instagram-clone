@@ -5,7 +5,7 @@ import { ValidationExceptionWrapper } from './validationExceptionWrapper'
 import { Exception } from '../domain'
 import { ILogger, loggerDiTypes } from '../../shared/services/logger/domain'
 import { I18NService as I18NServiceAbstract } from '../../shared/services/i18n/domain'
-import { i18nDiTypes } from '../../shared/services/i18n/infrastructure'
+import { i18nDiTypes } from '../../shared/services/i18n/infrastructure/i18nDiTypes'
 
 interface IErrorResponseBody {
   ok: boolean
