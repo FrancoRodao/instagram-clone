@@ -25,6 +25,10 @@ interface IEnvironment {
   dbUsername: string
   dbPassword: string
 
+  cloudinaryCloudName: string
+  cloudinaryApiKey: string
+  cloudinaryApiSecret: string
+
   SECRET_KEY: string
 }
 
@@ -42,6 +46,10 @@ function setupEnvironment (): void {
     dbName: process.env.DATABASE_NAME ?? '',
     dbUsername: process.env.DATABASE_USERNAME ?? '',
     dbPassword: process.env.DATABASE_PASSWORD ?? '',
+
+    cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME ?? '',
+    cloudinaryApiKey: process.env.CLOUDINARY_API_KEY ?? '',
+    cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET ?? '',
 
     SECRET_KEY: process.env.SECRET_KEY ?? ''
   }

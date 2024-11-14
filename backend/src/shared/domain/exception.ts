@@ -1,8 +1,10 @@
 /* eslint-disable no-unused-vars */
 
 enum CommonErrors {
+  VALIDATION_ERROR = 'VALIDATION ERROR',
   FIELD_ALREADY_EXISTS = 'FIELD_ALREADY_EXISTS',
-  TRANSLATION_ERROR = 'TRANSLATION_ERROR'
+  TRANSLATION_ERROR = 'TRANSLATION_ERROR',
+  INSUFFICIENT_PERMISSIONS = 'INSUFFICIENT_PERMISSIONS'
 }
 
 enum AuthErrors {
@@ -16,7 +18,8 @@ export const Errors = { CommonErrors, AuthErrors }
 export enum statusCodeError {
   BAD_REQUEST = 400,
   NOT_FOUND = 404,
-  FORBIDDEN = 401
+  UNAUTHORIZED = 401,
+  FORBIDDEN = 403
 }
 /* eslint-disable no-unused-vars */
 
