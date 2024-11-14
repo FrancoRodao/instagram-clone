@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
-import { type IJwtService, type IJwtServicePayload } from '../../domain/services/jwtService.interface'
-import { environment } from '../../../shared/infrastructure'
+import { type IJwtService, type IJwtPayload } from '../../domain/services/jwtService.interface'
+import { environment } from '../../../shared/infrastructure/config/environment.config'
 import { Errors, Exception, statusCodeError } from '../../../shared/domain'
 
 export class JwtService implements IJwtService {
@@ -13,7 +13,7 @@ export class JwtService implements IJwtService {
     })
   }
 
-  async decodeToken (token: string): Promise<IJwtServicePayload> {
+  async decodeToken (token: string): Promise<IJwtPayload> {
     return await new Promise<any>((resolve, reject) => {
       jwt.verify(token, environment('SECRET_KEY'), (err, decoded) => {
         if ((err != null) || decoded == null) reject(err)
@@ -22,10 +22,10 @@ export class JwtService implements IJwtService {
     })
   }
 
-  async createToken (payload: IJwtServicePayload, expiresIn: string): Promise<string> {
+  async createToken (payload: IJwtPayload, expiresIn: string): Promise<string> {
     return await new Promise<string>((resolve, reject) => {
       jwt.sign(
-        { payload },
+        payload,
         environment('SECRET_KEY'),
         { expiresIn },
         (err, accessToken) => {
