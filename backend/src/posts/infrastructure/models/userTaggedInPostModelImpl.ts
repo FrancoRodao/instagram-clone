@@ -1,6 +1,6 @@
 import { Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript'
 import { type IUserTaggedInPost } from '../../domain'
-import { SequelizeUserModel } from '../../../users/infrastructure'
+import { SequelizeUserModel } from '../../../users/infrastructure/models'
 import { SequelizePostModel } from './postModelImpl'
 
 @Table({

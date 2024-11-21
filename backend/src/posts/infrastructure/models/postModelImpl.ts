@@ -1,19 +1,17 @@
 import { BelongsToMany, Column, DataType, ForeignKey, HasMany, Model, Table } from 'sequelize-typescript'
-import { type IPostCommentModel, type IPostLikeModel, type IPostModel } from '../../domain'
+import { type IPostCommentModel, type IPostModel } from '../../domain'
 import { type IUserModel } from '../../../users/domain'
-import { SequelizeUserModel } from '../../../users/infrastructure'
+import { SequelizeUserModel } from '../../../users/infrastructure/models'
 import { SequelizeUserTaggedInPostModel } from './userTaggedInPostModelImpl'
 import { SequelizePostCommentModel } from './postCommentModelImpl'
-import { type Optional } from '../../../types'
 import { SequelizePostLikeModel } from './postLikeModelImpl'
-
-type PostModelCreationAttributes = Optional<IPostModel, 'id'>
+import { type ICreatePostDto } from '../../domain/post.dto'
 
 @Table({
   modelName: 'post'
 })
 export class SequelizePostModel extends
-  Model<IPostModel, PostModelCreationAttributes> implements IPostModel {
+  Model<IPostModel, ICreatePostDto> implements IPostModel {
   @Column({
     primaryKey: true,
     type: DataType.UUID,
@@ -37,7 +35,7 @@ export class SequelizePostModel extends
     type: DataType.ARRAY(DataType.STRING),
     defaultValue: []
   })
-    images!: string[]
+    mediaURLs!: string[]
 
   // associations
   @BelongsToMany(() => SequelizeUserModel, () => SequelizeUserTaggedInPostModel)
@@ -46,6 +44,6 @@ export class SequelizePostModel extends
   @HasMany(() => SequelizePostCommentModel)
     comments!: IPostCommentModel[]
 
-  @HasMany(() => SequelizePostLikeModel)
-    likes!: IPostLikeModel[]
+  @BelongsToMany(() => SequelizeUserModel, () => SequelizePostLikeModel)
+    likes!: IUserModel[]
 }
