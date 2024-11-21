@@ -1,4 +1,4 @@
-import { type IPostCommentModel, type IPostLikeModel, type IPostModel } from '../../posts/domain'
+import { type IPostCommentModel, type IPostModel } from '../../posts/domain'
 
 // IRoles and ROLES must be synchronized, ROLES act as value and IRoles acts as interface
 export const ROLES = ['USER', 'MODERATOR', 'ADMIN'] as const
@@ -23,6 +23,6 @@ export interface IUserModel {
   readonly userFollowed: IUserModel[]
   readonly posts: IPostModel[]
   readonly postsTaggedIn: IPostModel[]
-  readonly postsLiked: IPostLikeModel[]
+  readonly postsLiked: IPostModel[]
   readonly postsCommented: IPostCommentModel[]
 }

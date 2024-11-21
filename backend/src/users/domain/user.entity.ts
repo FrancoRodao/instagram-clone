@@ -1,4 +1,4 @@
-import { type IPostCommentModel, type IPostLikeModel, type IPostModel } from '../../posts/domain'
+import { type IPostCommentModel, type IPostModel } from '../../posts/domain'
 import { type IRoles, type IUserModel } from './user.model'
 import { type IUserDto } from './user.dto'
 
@@ -18,7 +18,7 @@ export class UserEntity implements IUserModel {
   public readonly userFollowed: IUserModel[]
   public readonly posts: IPostModel[]
   public readonly postsTaggedIn: IPostModel[]
-  public readonly postsLiked: IPostLikeModel[]
+  public readonly postsLiked: IPostModel[]
   public readonly postsCommented: IPostCommentModel[]
 
   constructor ({

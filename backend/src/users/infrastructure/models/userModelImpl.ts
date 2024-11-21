@@ -1,8 +1,8 @@
 import { Table, Model, Column, DataType, HasMany, BelongsToMany } from 'sequelize-typescript'
 import { type IUserCreateAttributes, DEFAULT_USER_ROLE, IRoles, type IUserModel, ROLES } from '../../domain'
-import { SequelizePostCommentModel, SequelizePostLikeModel, SequelizePostModel, SequelizeUserTaggedInPostModel } from '../../../posts/infrastructure'
+import { SequelizePostCommentModel, SequelizePostLikeModel, SequelizePostModel, SequelizeUserTaggedInPostModel } from '../../../posts/infrastructure/models'
 import { SequelizeUserFollowingModel } from './userFollowingModelImpl'
-import { type IPostCommentModel, type IPostLikeModel, type IPostModel } from '../../../posts/domain'
+import { type IPostCommentModel, type IPostModel } from '../../../posts/domain'
 
 @Table({
   modelName: 'user'
@@ -69,7 +69,7 @@ export class SequelizeUserModel extends
 
   // associations
   @BelongsToMany(() => SequelizeUserModel, () => SequelizeUserFollowingModel, 'userId')
-    userFollowed!: Array<IUserModel & { BookAuthor: IUserModel }>
+    userFollowed!: IUserModel[]
 
   @BelongsToMany(() => SequelizeUserModel, () => SequelizeUserFollowingModel, 'userFollowedId')
     userFollowers!: IUserModel[]
@@ -80,8 +80,8 @@ export class SequelizeUserModel extends
   @BelongsToMany(() => SequelizePostModel, () => SequelizeUserTaggedInPostModel)
     postsTaggedIn!: IPostModel[]
 
-  @HasMany(() => SequelizePostLikeModel)
-    postsLiked!: IPostLikeModel[]
+  @BelongsToMany(() => SequelizePostModel, () => SequelizePostLikeModel)
+    postsLiked!: IPostModel[]
 
   @HasMany(() => SequelizePostCommentModel)
     postsCommented!: IPostCommentModel[]
